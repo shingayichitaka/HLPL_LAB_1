@@ -205,13 +205,6 @@ double powerr()
 	if (t2.kind != ')') error (" ) is expected! ");
 	return pow(x,i);
 }
-/*
-				int i1 = narrow_cast<int>(left);
-				int i2 = narrow_cast<int>(primary());
-				if (i2 == 0) error("Zero divider in %");
-				left = i1 % i2;
-				t = ts.get();
-				break */
 
 double statement()
 {
@@ -309,13 +302,6 @@ double term()
 				break;
 			case '%':
 			{
-				/*
-				double d = primary();
-				if (d==0) error("Zero divider in %");
-				left = fmod(left, d);
-				t = ts.get();
-				break;
-				*/
 				int i1 = narrow_cast<int>(left);
 				int i2 = narrow_cast<int>(primary());
 				if (i2 == 0) error("Zero divider in %");
