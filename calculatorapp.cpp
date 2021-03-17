@@ -2,16 +2,16 @@
 
 constexpr char number = '8';
 constexpr char quit = 'x';
-constexpr char print = ';'; //we cant change the ; to an = since the = is already used under print later in the codefile!
+constexpr char print = ';'; 
 constexpr char result = '=';
-//constexpr char let = 'L';
+
 constexpr char sq = 'S';
 constexpr char power = 'P';
 constexpr char name = 'a';
 const string declkey = "#";
 const string squareroot = "sqrt";
-const string power_s = "pow"; //power_s is the string of the power
-const string quit_k = "exit"; //quit_k is the quit key
+const string power_s = "pow"; 
+const string quit_k = "exit"; 
 
 double expression();
 double term();
