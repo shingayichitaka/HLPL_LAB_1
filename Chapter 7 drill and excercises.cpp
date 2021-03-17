@@ -3,24 +3,24 @@
 
 class Token {
 public:
-	char kind;      // what kind of token
-	double value;   // for numbers: a value
-	string name;    // for variables and functions: a name
-	Token(char ch) :kind(ch), value(0) { }                  // make a Token from a char
-	Token(char ch, double val) :kind(ch), value(val) { }    // make a Token from a char and a double
-    Token(char ch, string n) :kind(ch), name(n) { }         // make a Token from a char and a string
+	char kind;      
+	double value;   
+	string name;    
+	Token(char ch) :kind(ch), value(0) { }                  
+	Token(char ch, double val) :kind(ch), value(val) { }    
+    Token(char ch, string n) :kind(ch), name(n) { }         
 };
 
 // stream of tokens
 class Token_stream {
 public:
-    Token_stream();         // make a Token_stream that reads from cin
-	Token get();            // get a Token
-    void putback(Token t);  // put a Token back
-    void ignore(char c);    // discard characters up to and including a c
+    Token_stream();         
+	Token get();            
+    void putback(Token t);  
+    void ignore(char c);    
 private:
-	bool full;          // is there a Token in the buffer?
-	Token buffer;       // here is where we keep a Token put back using putback()
+	bool full;         
+	Token buffer;       
 
 };
 
@@ -51,9 +51,9 @@ Token Token_stream::get()
     }
 
 	char ch;
-    cin.get(ch);    // note that cin.get() does NOT skip whitespace
+    cin.get(ch);    
     while (isspace(ch)) {
-        if (ch == '\n') return Token(print); // if newline detected, return print Token
+        if (ch == '\n') return Token(print); 
         cin.get(ch);
     }
 
@@ -68,13 +68,13 @@ Token Token_stream::get()
     case '%':
     case '=':
     case ',':
-		return Token(ch);   // let each character represent itself
-	case '.':   // a floating-point-literal can start with a dot
+		return Token(ch);   
+	case '.':   
 	case '0': case '1': case '2': case '3': case '4':
-	case '5': case '6': case '7': case '8': case '9':   // numeric literal
-	{	cin.putback(ch);    // put digit back into the input stream
+	case '5': case '6': case '7': case '8': case '9':   
+	{	cin.putback(ch);    
 		double val;
-		cin >> val;         // read a floating-point number
+		cin >> val;         
 		return Token(number,val);
 	}
 	default:
@@ -110,7 +110,7 @@ void Token_stream::ignore(char c)
 	}
 	full = false;
 
-    // now search input:
+    
 	char ch = 0;
 	while (cin>>ch)
 		if (ch==c) return;
@@ -126,12 +126,12 @@ public:
 
 class Symbol_table {
 public:
-    double get(string s);                           // return the value of the Variable named s
-    void set(string s, double d);                   // set the Variable named s to d
-    bool is_declared(string var);                   // is var already in var_table?
-    double declare(string var,double val,bool b);   // add (var,val) to var_table
+    double get(string s);                           
+    void set(string s, double d);                   
+    bool is_declared(string var);                   
+    double declare(string var,double val,bool b);   
 private:
-    vector<Variable> var_table; // vector of Variables
+    vector<Variable> var_table; 
 };
 
 double Symbol_table::get(string s)
@@ -141,7 +141,7 @@ double Symbol_table::get(string s)
 	error("get: undefined variable ",s);
 }
 
-// set the Variable named s to d
+
 void Symbol_table::set(string s, double d)
 {
 	for (int i = 0; i<var_table.size(); ++i)
@@ -169,18 +169,18 @@ double Symbol_table::declare(string var, double val, bool b)
 
 
 
-Token_stream ts;        // provides get() and putback()
-Symbol_table st;        // provides get(), set(), is_declared() and declare()
-double expression();    // declaration so that primary() can call expression()
+Token_stream ts;        
+Symbol_table st;        
+double expression();    
 
 double my_pow(double base, int expo)
 {
     if (expo == 0) {
-        if (base == 0) return 0;    // special case: pow(0,0)
-        return 1;                   // something to power of 0
+        if (base == 0) return 0;    
+        return 1;                   
     }
-    double res = base;              // corresponds to power of 1
-    for (int i = 2; i<=expo; ++i)   // powers of 2 and more
+    double res = base;              
+    for (int i = 2; i<=expo; ++i)   
         res *= base;
     return res;
 }
@@ -189,7 +189,7 @@ double primary()
 {
 	Token t = ts.get();
 	switch (t.kind) {
-	case '(':   // handle '(' expression ')'
+	case '(':   
 	{	double d = expression();
 		t = ts.get();
 		if (t.kind != ')') error("')' expected");
@@ -202,18 +202,18 @@ double primary()
 	case number:
 		return t.value;
     case name:
-    {   Token t2 = ts.get();    // check next token
-        if (t2.kind == '=') {   // handle name '=' expression
+    {   Token t2 = ts.get();    
+        if (t2.kind == '=') {   
             double d = expression();
             st.set(t.name,d);
             return d;
         }
-        else {  // not an assignment
+        else {  
             ts.putback(t2);
             return st.get(t.name);
         }
     }
-    case square_root:   // handle 'sqrt(' expression ')'
+    case square_root:   
     {   t = ts.get();
         if (t.kind != '(') error("'(' expected");
         double d = expression();
@@ -222,7 +222,7 @@ double primary()
         if (t.kind != ')') error("')' expected");
         return sqrt(d);
     }
-    case power: // handle 'pow(' expression ',' integer ')'
+    case power: 
     {   t = ts.get();
         if (t.kind != '(') error("'(' expected");
         double d = expression();
@@ -244,7 +244,7 @@ double primary()
 double term()
 {
 	double left = primary();
-    Token t = ts.get(); // get the next token from Token_stream
+    Token t = ts.get(); 
 
 	while (true) {
 		switch(t.kind) {
@@ -271,7 +271,7 @@ double term()
             break;
         }
 		default:
-			ts.putback(t);  // put t back into the Token_stream
+			ts.putback(t);  
 			return left;
 		}
 	}
@@ -279,24 +279,24 @@ double term()
 
 double expression()
 {
-	double left = term();   // read and evaluate a Term
-    Token t = ts.get();     // get the next Token from the Token stream
+	double left = term();   
+    Token t = ts.get();     
 
 	while (true) {
 		switch(t.kind) {
 		case '+':
-			left += term(); // evaluate Term and add
+			left += term(); 
             t = ts.get();
 			break;
 		case '-':
-			left -= term(); // evaluate Term and subtract
+			left -= term(); 
             t = ts.get();
 			break;
         case '=':
             error("use of '=' outside of a declaration");
 		default:
-			ts.putback(t);  // put t back into the token stream
-			return left;    // finally: no more + or -; return the answer
+			ts.putback(t);  
+			return left;    
 		}
 	}
 }
@@ -343,7 +343,7 @@ void print_help()
 }
 
 const string prompt = "> ";
-const string result = "= "; // used to indicate that what follows is a result
+const string result = "= "; 
 
 void calculate()
 {
@@ -351,8 +351,8 @@ void calculate()
     try {
 		cout << prompt;
 		Token t = ts.get();
-		while (t.kind == print) t=ts.get(); // first discard all "prints"
-        if (t.kind == help) print_help();   // print help instructions
+		while (t.kind == print) t=ts.get(); 
+        if (t.kind == help) print_help();   
         else {
             if (t.kind == quit) return;
             ts.putback(t);
@@ -360,21 +360,21 @@ void calculate()
         }
 	}
 	catch(exception& e) {
-		cerr << e.what() << endl;   // write error message
+		cerr << e.what() << endl;   
 		clean_up_mess();
 	}
 }
 int main()
 try
 {
-    // predefine names:
+    
     st.declare("pi",3.1415926535,true);
     st.declare("e",2.7182818284,true);
     st.declare("k",1000,true);
 
 	calculate();
 
-    keep_window_open(); // cope with Windows console mode
+    keep_window_open(); 
 	return 0;
 }
 catch (exception& e) {
