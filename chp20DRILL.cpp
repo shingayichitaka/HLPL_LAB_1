@@ -1,6 +1,4 @@
-// Chapter 20, Drill
-
-#include "../lib_files/std_lib_facilities.h"
+#include "std_lib_facilities.h"
 
 template<class T, int N>
 struct array {
