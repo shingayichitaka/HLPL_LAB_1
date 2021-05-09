@@ -34,4 +34,5 @@ catch (exception& e) {
     cerr << "exception: " << e.what() << endl;
 }
 catch (...) {
-    ce
+    cerr << "exception\n";
+}
