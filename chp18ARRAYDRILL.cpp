@@ -1,6 +1,6 @@
 // Chapter 18, Drill 1: array drill
 
-#include "../lib_files/std_lib_facilities.h"
+#include "std_lib_facilities.h"
 
 const int gas = 10;
 int ga[gas] = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 };
