@@ -1,6 +1,5 @@
-// Chapter 18, Drill 2: std:vector drill
 
-#include "../lib_files/std_lib_facilities.h"
+#include "std_lib_facilities.h"
 
 vector<int> gv;
 
